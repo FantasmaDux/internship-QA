@@ -220,7 +220,7 @@ BUG-ID: BUG_01
 {
   "sellerID": 111114,
   "name": "auto",
-  "price": 0,
+  "price": 1,
   "statistics": {
     "likes": 2,
     "viewCount": 0,
