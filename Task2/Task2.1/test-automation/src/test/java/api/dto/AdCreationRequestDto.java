@@ -1,43 +1,30 @@
-package api;
+package api.dto;
 
-public class AdCreationDto {
-    private final int sellerID;
-    private final String name;
-    private final int price;
-    private final Statistics statistics;
+public class AdCreationRequestDto {
+    private Integer sellerID;
+    private String name;
+    private Long price;
+    private StatisticResponseDto statistics;
 
-    public static class Statistics{
-        private final int contacts;
-        private final int viewCount;
-        private final int likes;
-
-        public Statistics(int contacts, int viewCount, int likes) {
-            this.contacts = contacts;
-            this.viewCount = viewCount;
-            this.likes = likes;
-        }
-
-        public int getContacts() {
-            return contacts;
-        }
-
-        public int getViewCount() {
-            return viewCount;
-        }
-
-        public int getLikes() {
-            return likes;
-        }
-    }
-
-    public AdCreationDto(Integer sellerID, String name, int price, Statistics statistics) {
+    public AdCreationRequestDto(Integer sellerID, String name, Long price, StatisticResponseDto statistics) {
         this.sellerID = sellerID;
         this.name = name;
         this.price = price;
         this.statistics = statistics;
     }
 
-    public int getSellerID() {
+    public AdCreationRequestDto(Integer sellerID, String name, int price, StatisticResponseDto statistics) {
+        this.sellerID = sellerID;
+        this.name = name;
+        this.price = (long) price;
+        this.statistics = statistics;
+    }
+
+
+    public AdCreationRequestDto() {
+    }
+
+    public Integer getSellerID() {
         return sellerID;
     }
 
@@ -45,11 +32,11 @@ public class AdCreationDto {
         return name;
     }
 
-    public int getPrice() {
+    public Long getPrice() {
         return price;
     }
 
-    public Statistics getStatistics() {
+    public StatisticResponseDto getStatistics() {
         return statistics;
     }
 }
