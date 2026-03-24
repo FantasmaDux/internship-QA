@@ -1,5 +1,9 @@
 package api.util;
 
+/*
+ * Класс содержит общие для нескольких наборов тестов методы
+ */
+
 import api.Constants;
 import api.dto.AdCreationRequestDto;
 import io.qameta.allure.Step;
@@ -11,7 +15,10 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class CommonMethods {
+public final class CommonMethods {
+
+    private CommonMethods() {
+    }
 
     public static String getIdFromStatus(String status) {
         return status.replace("Сохранили объявление - ", "");

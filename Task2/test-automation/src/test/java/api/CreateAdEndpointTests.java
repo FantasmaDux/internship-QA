@@ -38,10 +38,10 @@ public class CreateAdEndpointTests {
     @Description("Проверка, что объявление успешно создаётся с корректными параметрами")
     @Severity(SeverityLevel.BLOCKER)
     public void adCreationWithValidInputTest() {
-        StatisticResponseDto stats = new StatisticResponseDto(2, 18, 1);
+        StatisticResponseDto statistics = new StatisticResponseDto(2, 18, 1);
 
         AdCreationRequestDto data = new AdCreationRequestDto(
-                CommonMethods.generateSellerId(), "auto", 120000, stats
+                CommonMethods.generateSellerId(), "auto", 120000, statistics
         );
 
         Response response = CommonMethods.sendCreateRequest(data);
@@ -55,10 +55,10 @@ public class CreateAdEndpointTests {
             "и минимальным граничным значением sellerID")
     @Severity(SeverityLevel.CRITICAL)
     public void adCreationWithValidInputAndMinSellerIdBoundTest() {
-        StatisticResponseDto stats = new StatisticResponseDto(2, 18, 1);
+        StatisticResponseDto statistics = new StatisticResponseDto(2, 18, 1);
 
         AdCreationRequestDto data = new AdCreationRequestDto(
-                Constants.MIN_SELLER_ID, "auto", 120000, stats
+                Constants.MIN_SELLER_ID, "auto", 120000, statistics
         );
 
         Response response = CommonMethods.sendCreateRequest(data);
@@ -73,10 +73,10 @@ public class CreateAdEndpointTests {
             " с корректными параметрами и максимальным граничным значением sellerID")
     @Severity(SeverityLevel.CRITICAL)
     public void adCreationWithValidInputAndMaxSellerIdBoundTest() {
-        StatisticResponseDto stats = new StatisticResponseDto(2, 18, 1);
+        StatisticResponseDto statistics = new StatisticResponseDto(2, 18, 1);
 
         AdCreationRequestDto data = new AdCreationRequestDto(
-                Constants.MAX_SELLER_ID, "auto", 120000, stats
+                Constants.MAX_SELLER_ID, "auto", 120000, statistics
         );
 
         Response response = CommonMethods.sendCreateRequest(data);
@@ -89,10 +89,10 @@ public class CreateAdEndpointTests {
     @Description("Проверка, что объявление успешно создаётся при нулевом значении цены")
     @Severity(SeverityLevel.NORMAL)
     public void adCreationWithZeroPriceTest() {
-        StatisticResponseDto stats = new StatisticResponseDto(2, 18, 1);
+        StatisticResponseDto statistics = new StatisticResponseDto(2, 18, 1);
 
         AdCreationRequestDto data = new AdCreationRequestDto(
-                CommonMethods.generateSellerId(), "auto", 0, stats
+                CommonMethods.generateSellerId(), "auto", 0, statistics
         );
 
         Response response = CommonMethods.sendCreateRequest(data);
@@ -105,10 +105,10 @@ public class CreateAdEndpointTests {
     @Description("Проверка, что объявление успешно создаётся при нулевом значении просмотров")
     @Severity(SeverityLevel.NORMAL)
     public void adCreationWithZeroViewCountTest() {
-        StatisticResponseDto stats = new StatisticResponseDto(2, 0, 1);
+        StatisticResponseDto statistics = new StatisticResponseDto(2, 0, 1);
 
         AdCreationRequestDto data = new AdCreationRequestDto(
-                CommonMethods.generateSellerId(), "auto", 1, stats
+                CommonMethods.generateSellerId(), "auto", 1, statistics
         );
 
         Response response = CommonMethods.sendCreateRequest(data);
@@ -125,9 +125,9 @@ public class CreateAdEndpointTests {
     @Description("Проверка, что при попытке отправить null значение будет возвращен статус-код 400")
     @Severity(SeverityLevel.NORMAL)
     public void adCreationWithNullSellerIdTest() {
-        StatisticResponseDto stats = new StatisticResponseDto(2, 18, 1);
+        StatisticResponseDto statistics = new StatisticResponseDto(2, 18, 1);
 
-        AdCreationRequestDto data = new AdCreationRequestDto(null, "auto", 1, stats);
+        AdCreationRequestDto data = new AdCreationRequestDto(null, "auto", 1, statistics);
 
         Response response = CommonMethods.sendCreateRequest(data);
 
@@ -141,9 +141,9 @@ public class CreateAdEndpointTests {
             "с отрицательной ценой будет возвращен статус-код 400")
     @Severity(SeverityLevel.NORMAL)
     public void createAdWithNegativePriceTest(Long invalidPrice) {
-        StatisticResponseDto stats = new StatisticResponseDto(2, 1, 1);
+        StatisticResponseDto statistics = new StatisticResponseDto(2, 1, 1);
         AdCreationRequestDto data = new AdCreationRequestDto(
-                CommonMethods.generateSellerId(), "auto", invalidPrice, stats
+                CommonMethods.generateSellerId(), "auto", invalidPrice, statistics
         );
         Response response = CommonMethods.sendCreateRequest(data);
 
@@ -162,11 +162,11 @@ public class CreateAdEndpointTests {
     public void createAdWithNegativeStatisticsTest(
             int invalidLikes, int invalidViewCount, int invalidContacts
     ) {
-        StatisticResponseDto stats = new StatisticResponseDto(
+        StatisticResponseDto statistics = new StatisticResponseDto(
                 invalidContacts, invalidViewCount, invalidLikes);
 
         AdCreationRequestDto data = new AdCreationRequestDto(
-                CommonMethods.generateSellerId(), "clock", 200, stats
+                CommonMethods.generateSellerId(), "clock", 200, statistics
         );
         Response response = CommonMethods.sendCreateRequest(data);
 
@@ -180,9 +180,9 @@ public class CreateAdEndpointTests {
             "будет возвращен статус-код 400")
     @Severity(SeverityLevel.NORMAL)
     public void createAdWithNegativeSellerIdTest(int invalidSellerId) {
-        StatisticResponseDto stats = new StatisticResponseDto(2, 18, 1);
+        StatisticResponseDto statistics = new StatisticResponseDto(2, 18, 1);
         AdCreationRequestDto data = new AdCreationRequestDto(
-                invalidSellerId, "auto", 200, stats
+                invalidSellerId, "auto", 200, statistics
         );
         Response response = CommonMethods.sendCreateRequest(data);
 
@@ -195,10 +195,10 @@ public class CreateAdEndpointTests {
             "будет возвращен статус-код 400")
     @Severity(SeverityLevel.NORMAL)
     public void adCreationWithBlankNameTest() {
-        StatisticResponseDto stats = new StatisticResponseDto(2, 18, 1);
+        StatisticResponseDto statistics = new StatisticResponseDto(2, 18, 1);
 
         AdCreationRequestDto data = new AdCreationRequestDto(
-                CommonMethods.generateSellerId(), "", 1, stats
+                CommonMethods.generateSellerId(), "", 1, statistics
         );
 
         Response response = CommonMethods.sendCreateRequest(data);
@@ -240,10 +240,10 @@ public class CreateAdEndpointTests {
             "будет возвращен статус-код 405")
     @Severity(SeverityLevel.MINOR)
     public void adCreationWithWrongMethodTest() {
-        StatisticResponseDto stats = new StatisticResponseDto(2, 18, 1);
+        StatisticResponseDto statistics = new StatisticResponseDto(2, 18, 1);
 
         AdCreationRequestDto data = new AdCreationRequestDto(
-                CommonMethods.generateSellerId(), "clock", 200, stats
+                CommonMethods.generateSellerId(), "clock", 200, statistics
         );
 
         Response response = given()
@@ -268,9 +268,9 @@ public class CreateAdEndpointTests {
     @Severity(SeverityLevel.NORMAL)
     public void idempotencyTest() {
 
-        StatisticResponseDto stats = new StatisticResponseDto(2, 18, 1);
+        StatisticResponseDto statistics = new StatisticResponseDto(2, 18, 1);
         AdCreationRequestDto data = new AdCreationRequestDto(
-                CommonMethods.generateSellerId(), "clock", 200, stats
+                CommonMethods.generateSellerId(), "clock", 200, statistics
         );
 
         Response firstResponse = CommonMethods.sendCreateRequest(data);
@@ -298,10 +298,10 @@ public class CreateAdEndpointTests {
     @Description("Проверка, что возможно создать объявление с нестандартными параметрами")
     @Severity(SeverityLevel.NORMAL)
     public void adCreationWithStrangeParamsTest() {
-        StatisticResponseDto stats = new StatisticResponseDto(1, 1, 9999);
+        StatisticResponseDto statistics = new StatisticResponseDto(1, 1, 9999);
 
         AdCreationRequestDto data = new AdCreationRequestDto(
-                999999, "#$%_y!%^:", Integer.MAX_VALUE, stats
+                999999, "#$%_y!%^:", Integer.MAX_VALUE, statistics
         );
 
         Response response = CommonMethods.sendCreateRequest(data);
@@ -321,8 +321,8 @@ public class CreateAdEndpointTests {
     public void sqlInjectionTest() {
         String sqlInjection = "' or 1=1--";
 
-        StatisticResponseDto stats = new StatisticResponseDto(2, 18, 1);
-        AdCreationRequestDto data = new AdCreationRequestDto(CommonMethods.generateSellerId(), sqlInjection, 200, stats);
+        StatisticResponseDto statistics = new StatisticResponseDto(2, 18, 1);
+        AdCreationRequestDto data = new AdCreationRequestDto(CommonMethods.generateSellerId(), sqlInjection, 200, statistics);
 
         Response response = CommonMethods.sendCreateRequest(data);
 
@@ -337,8 +337,8 @@ public class CreateAdEndpointTests {
     public void xssInjectionTest() {
         String xssInjection = "<script>alert('hi!')</script>";
 
-        StatisticResponseDto stats = new StatisticResponseDto(2, 18, 1);
-        AdCreationRequestDto data = new AdCreationRequestDto(CommonMethods.generateSellerId(), xssInjection, 200, stats);
+        StatisticResponseDto statistics = new StatisticResponseDto(2, 18, 1);
+        AdCreationRequestDto data = new AdCreationRequestDto(CommonMethods.generateSellerId(), xssInjection, 200, statistics);
 
         Response response = CommonMethods.sendCreateRequest(data);
         CommonMethods.checkStatusCode(response, HttpStatus.SC_OK);

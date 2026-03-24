@@ -41,8 +41,8 @@ public class GetStatisticsByAdIdTests {
 
         CommonMethods.checkStatusCode(response, HttpStatus.SC_OK);
 
-        List<StatisticResponseDto> statsList = response.jsonPath().getList(".", StatisticResponseDto.class);
-        StatisticResponseDto statistics = statsList.getFirst();
+        List<StatisticResponseDto> statisticsList = response.jsonPath().getList(".", StatisticResponseDto.class);
+        StatisticResponseDto statistics = statisticsList.getFirst();
 
         assertThat(statistics.getLikes(), greaterThanOrEqualTo(0L));
         assertThat(statistics.getViewCount(), greaterThanOrEqualTo(0L));
@@ -97,8 +97,8 @@ public class GetStatisticsByAdIdTests {
 
         CommonMethods.checkStatusCode(response, HttpStatus.SC_OK);
 
-        List<StatisticResponseDto> statsList = response.jsonPath().getList(".", StatisticResponseDto.class);
-        StatisticResponseDto statistic = statsList.getFirst();
+        List<StatisticResponseDto> statisticsList = response.jsonPath().getList(".", StatisticResponseDto.class);
+        StatisticResponseDto statistic = statisticsList.getFirst();
 
         assertThat(statistic.getLikes(), is(likes));
         assertThat(statistic.getViewCount(), is(viewCount));

@@ -2,6 +2,10 @@ package api.dto;
 
 import java.util.UUID;
 
+/*
+ * Класс содержит DTO для получения объявления. Используется для сериализации
+ */
+
 public class AdResponseDto {
     private String createdAt;
     private UUID id;

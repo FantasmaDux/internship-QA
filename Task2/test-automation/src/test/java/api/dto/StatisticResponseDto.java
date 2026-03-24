@@ -1,5 +1,9 @@
 package api.dto;
 
+/*
+ * Класс содержит DTO для работы с полями статистики. Используется для сериализации
+ */
+
 public class StatisticResponseDto {
     private Long contacts;
     private Long viewCount;

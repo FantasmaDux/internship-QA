@@ -1,7 +1,9 @@
-import api.CreateAdEndpointTests;
-import api.GetAdByIdEndpointTests;
-import api.GetAdsBySellerIdEndpointTests;
-import api.GetStatisticsByAdIdTests;
+
+/*
+ * Класс для единовременного запуска всех наборов тестов из IntelliJ IDEA
+ */
+
+import api.*;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
@@ -10,8 +12,9 @@ import org.junit.platform.suite.api.Suite;
         CreateAdEndpointTests.class,
         GetAdByIdEndpointTests.class,
         GetAdsBySellerIdEndpointTests.class,
-        GetStatisticsByAdIdTests.class
+        GetStatisticsByAdIdTests.class,
+        E2ETests.class,
 })
-public class TestRunner{
+public class TestRunner {
 
 }

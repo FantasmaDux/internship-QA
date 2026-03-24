@@ -1,5 +1,9 @@
 package api.dto;
 
+/*
+ * Класс содержит DTO для создания объявления. Используется для сериализации
+ */
+
 public class AdCreationRequestDto {
     private Integer sellerID;
     private String name;

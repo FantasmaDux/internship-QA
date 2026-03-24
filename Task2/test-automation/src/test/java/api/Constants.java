@@ -1,5 +1,9 @@
 package api;
 
+/*
+ * Класс содержит константы для API
+ */
+
 public final class Constants {
     private Constants() {
     }
@@ -14,5 +18,11 @@ public final class Constants {
 
     public static final int MIN_SELLER_ID = 111111;
     public static final int MAX_SELLER_ID = 999999;
+
+    public static final Long MIN_VALID_PRICE = 1L;
+    public static final Long MAX_VALID_PRICE = (long) Integer.MAX_VALUE;
+
+    public static final Long MIN_VALID_STATISTICS_FIELD = 1L;
+    public static final Long MAX_VALID_STATISTICS_FIELD = (long) Integer.MAX_VALUE;
 
 }
