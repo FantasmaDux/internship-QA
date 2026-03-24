@@ -1,6 +1,3 @@
-@echo off
-setlocal enabledelayedexpansion
-
 echo Moving to project root folder...
 cd test-automation
 if %errorlevel% neq 0 (
