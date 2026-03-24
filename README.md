@@ -11,7 +11,7 @@ internship-QA/
 ├── .git/                           
 ├── images/                        # Скриншоты
 ├── Task1/                         # Задание 1
-│   └── Task1.md                   # Отчет по заданию 1
+│   └── Task1.md                   # Отчёт по заданию 1
 ├── Task2/                         # Задание 2
 │   └── ...                        # (структура находится в [readme.md](./Task2/README.md#) в папке Task2)
 └── README.md                      # Основной README файл
@@ -40,7 +40,7 @@ E2E тест-кейсы находятся в файле [E2E-TESTCASES.md](Task
 
 Примененные инструменты:
 - [Java 21](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html) (автоматизация)
-- [Allure](https://allurereport.org/) (отчет)
+- [Allure](https://allurereport.org/) (отчёт)
 - [k6](https://k6.io/) (нагрузочное тестирование)
 
 Вся информация о структуре задания, запуске, скриншоты и пояснения находятся в [readme.md](./Task2/README.md#) в папке Task2.
