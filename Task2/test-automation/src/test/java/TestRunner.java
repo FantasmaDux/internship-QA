@@ -1,4 +1,3 @@
-
 /*
  * Класс для единовременного запуска всех наборов тестов из IntelliJ IDEA
  */
@@ -9,12 +8,10 @@ import org.junit.platform.suite.api.Suite;
 
 @Suite
 @SelectClasses({
-        CreateAdEndpointTests.class,
-        GetAdByIdEndpointTests.class,
-        GetAdsBySellerIdEndpointTests.class,
-        GetStatisticsByAdIdTests.class,
-        E2ETests.class,
+  CreateAdEndpointTests.class,
+  GetAdByIdEndpointTests.class,
+  GetAdsBySellerIdEndpointTests.class,
+  GetStatisticsByAdIdTests.class,
+  E2ETests.class,
 })
-public class TestRunner {
-
-}
+public class TestRunner {}
