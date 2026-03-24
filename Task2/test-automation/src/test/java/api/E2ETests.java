@@ -157,35 +157,18 @@ public class E2ETests {
    */
 
   @Test
-  @DisplayName("Попытка получения статистики несуществующего объявления")
+  @DisplayName("Попытка получения статистики и информации несуществующего объявления")
   @Description(
-      "Проверка, что при замене одного символа в UUID успешно созданного объявления и"
-          + " попытке получения статистики с таким ID приходит 404 Not Found")
+      "Проверка, что при попытке получения статистики и информации по несуществующему ID приходит 404 Not Found")
   @Severity(SeverityLevel.NORMAL)
   public void createAdAndGetStatisticByNonExistingAdIdTest() {
 
-    StatisticResponseDto statistics =
-        new StatisticResponseDto(
-            DataGenerator.generateValidStatisticsField(),
-            DataGenerator.generateValidStatisticsField(),
-            DataGenerator.generateValidStatisticsField());
-
-    AdCreationRequestDto data =
-        new AdCreationRequestDto(
-            DataGenerator.generateValidSellerId(),
-            DataGenerator.generateValidName(),
-            DataGenerator.generateValidPrice(),
-            statistics);
-
-    Response createResponse = CommonMethods.sendCreateRequest(data);
-    CommonMethods.checkStatusCode(createResponse, HttpStatus.SC_OK);
-
-    String status = createResponse.jsonPath().getString("status");
-    String adId = getIdFromStatus(status);
-
-    String nonExistingAdId = adId.substring(0, adId.length() - 1) + "f";
+    String nonExistingAdId = "00000000-0000-0000-0000-000000000000";
 
     Response getStatisticResponse = CommonMethods.sendGetStatisticsRequest(nonExistingAdId);
     CommonMethods.checkStatusCode(getStatisticResponse, HttpStatus.SC_NOT_FOUND);
+
+    Response getAdResponse = CommonMethods.sendGetAdByIdRequest(nonExistingAdId);
+    CommonMethods.checkStatusCode(getAdResponse, HttpStatus.SC_NOT_FOUND);
   }
 }
