@@ -9,7 +9,21 @@ echo.
 
 echo Running tests...
 
-mvnw.cmd test 
+call mvnw.cmd clean test
+set TEST_EXIT_CODE=%errorlevel%
+
+echo.
+echo Generating Allure Report...
+echo.
+
+echo.
+echo Generating static report...
+
+call mvnw.cmd allure:report
+copy "target\site\allure-maven-plugin\index.html" ".\allure-example.html"
+
+start cmd /k mvnw.cmd allure:serve --no-transfer-progress
 
 echo You can see results above!
+
 pause

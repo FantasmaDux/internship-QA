@@ -1,7 +1,16 @@
 package api;
 
+/*
+ * Класс содержит автоматизированные тест-кейсы получения
+ * объявлений по идентификатору продавца (sellerId)
+ */
+
 import api.dto.AdResponseDto;
+import api.util.CommonMethods;
+import io.qameta.allure.*;
 import io.restassured.response.Response;
+import org.apache.http.HttpStatus;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -9,28 +18,28 @@ import java.util.List;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Epic("API тестирование")
+@Feature("Получение объявлений по идентификатору продавца")
 public class GetAdsBySellerIdEndpointTests {
-    private static final int MIN_SELLER_ID_BOUND = 111111;
-    private static final int MAX_SELLER_ID_BOUND = 999999;
-    private static final String URL_FIRST_PART = "https://qa-internship.avito.com/api/1/";
-    private static final String URL_SECOND_PART = "/item";
+
+    /*
+     * Позитивные проверки
+     */
 
     @Test
+    @DisplayName("Получение существующих объявлений по существующему ID продавца")
+    @Description("Проверка, что по запросу возвращается список объявлений со статус-кодом 200")
+    @Severity(SeverityLevel.BLOCKER)
     public void getExistingAdsBySellerIdTest() {
 
-        int sellerId = MIN_SELLER_ID_BOUND;
+        int sellerId = Constants.MAX_SELLER_ID;
 
-        Response response = given()
-                .contentType("application/json")
-                .when()
-                .get(URL_FIRST_PART + sellerId + URL_SECOND_PART)
-                .then()
-                .extract()
-                .response();
+        Response response = CommonMethods.sendGetAdsRequest(sellerId);
 
-        assertThat(response.statusCode(), is(200));
+        CommonMethods.checkStatusCode(response, HttpStatus.SC_OK);
 
         List<AdResponseDto> responses = response.jsonPath().getList(".", AdResponseDto.class);
 
@@ -38,19 +47,16 @@ public class GetAdsBySellerIdEndpointTests {
     }
 
     @Test
+    @DisplayName("Получение пустого списка объявлений по существующему ID продавца")
+    @Description("Проверка, что по запросу возвращается пустой список объявлений со статус-кодом 200")
+    @Severity(SeverityLevel.NORMAL)
     public void getEmptyAdListBySellerIdTest() {
 
         int sellerId = 917699;
 
-        Response response = given()
-                .contentType("application/json")
-                .when()
-                .get(URL_FIRST_PART + sellerId + URL_SECOND_PART)
-                .then()
-                .extract()
-                .response();
+        Response response = CommonMethods.sendGetAdsRequest(sellerId);
 
-        assertThat(response.statusCode(), is(200));
+        CommonMethods.checkStatusCode(response, HttpStatus.SC_OK);
 
         List<AdResponseDto> responses = response.jsonPath().getList(".", AdResponseDto.class);
 
@@ -58,24 +64,28 @@ public class GetAdsBySellerIdEndpointTests {
 
     }
 
+    /*
+     * Негативные проверки
+     */
+
     @Test
+    @DisplayName("Получение списка объявлений по невалидному отрицательному ID продавца")
+    @Description("Проверка, что по запросу с отрицательным ID возвращается статус-код 400")
+    @Severity(SeverityLevel.NORMAL)
     public void getAdsByNegativeInvalidSellerIdTest() {
 
         int sellerId = -999;
 
-        Response response = given()
-                .contentType("application/json")
-                .when()
-                .get(URL_FIRST_PART + sellerId + URL_SECOND_PART)
-                .then()
-                .extract()
-                .response();
+        Response response = CommonMethods.sendGetAdsRequest(sellerId);
 
-        assertThat(response.statusCode(), is(400));
+        CommonMethods.checkStatusCode(response, HttpStatus.SC_BAD_REQUEST);
 
     }
 
     @Test
+    @DisplayName("Получение списка объявлений по невалидному ID продавца")
+    @Description("Проверка, что по запросу с невалидным ID возвращается статус-код 400")
+    @Severity(SeverityLevel.NORMAL)
     public void getAdsByInvalidSellerIdTest() {
 
         String sellerId = "%09";
@@ -83,52 +93,42 @@ public class GetAdsBySellerIdEndpointTests {
         Response response = given()
                 .contentType("application/json")
                 .when()
-                .get(URL_FIRST_PART + sellerId + URL_SECOND_PART)
+                .get(Constants.BASE_URL + "/" + sellerId + Constants.AD_URL_PART)
                 .then()
                 .extract()
                 .response();
 
-        assertThat(response.statusCode(), is(400));
+        CommonMethods.checkStatusCode(response, HttpStatus.SC_BAD_REQUEST);
 
     }
 
+    /*
+     * Корнер-тесты
+     */
+
     @Test
+    @DisplayName("Идемпотентность запроса на получение объявлений по sellerId")
+    @Description("Проверка, что повторные GET-запросы возвращают " +
+            "одинаковый результат и не изменяют состояние системы")
+    @Severity(SeverityLevel.NORMAL)
     public void getRequestIdempotencyTest() {
-        int sellerId = MIN_SELLER_ID_BOUND;
+        int sellerId = Constants.MIN_SELLER_ID;
 
-        Response firstResponse = given()
-                .contentType("application/json")
-                .when()
-                .get(URL_FIRST_PART + sellerId + URL_SECOND_PART)
-                .then()
-                .extract()
-                .response();
+        Response firstResponse = CommonMethods.sendGetAdsRequest(sellerId);
 
-        assertThat(firstResponse.statusCode(), is(200));
+        CommonMethods.checkStatusCode(firstResponse, HttpStatus.SC_OK);
         List<AdResponseDto> firstResponses = firstResponse.jsonPath().getList(".", AdResponseDto.class);
         AdResponseDto firstAd = firstResponses.getFirst();
 
-        Response secondResponse = given()
-                .contentType("application/json")
-                .when()
-                .get(URL_FIRST_PART + sellerId + URL_SECOND_PART)
-                .then()
-                .extract()
-                .response();
+        Response secondResponse = CommonMethods.sendGetAdsRequest(sellerId);
 
-        assertThat(secondResponse.statusCode(), is(200));
+        CommonMethods.checkStatusCode(secondResponse, HttpStatus.SC_OK);
         List<AdResponseDto> secondResponses = secondResponse.jsonPath().getList(".", AdResponseDto.class);
         AdResponseDto secondAd = secondResponses.getFirst();
 
-        Response thirdResponse = given()
-                .contentType("application/json")
-                .when()
-                .get(URL_FIRST_PART + sellerId + URL_SECOND_PART)
-                .then()
-                .extract()
-                .response();
+        Response thirdResponse = CommonMethods.sendGetAdsRequest(sellerId);
 
-        assertThat(thirdResponse.statusCode(), is(200));
+        CommonMethods.checkStatusCode(thirdResponse, HttpStatus.SC_OK);
         List<AdResponseDto> thirdResponses = thirdResponse.jsonPath().getList(".", AdResponseDto.class);
         AdResponseDto thirdAd = thirdResponses.getFirst();
 
@@ -150,19 +150,26 @@ public class GetAdsBySellerIdEndpointTests {
 
     }
 
+    /*
+     * Проверки безопасности
+     */
 
     @Test
+    @DisplayName("Получения объявления с XSS-атакой в поле sellerId")
+    @Description("Проверка, что внедрение XSS-атаки в поле sellerId не " +
+            "вызовет необычного поведения")
+    @Severity(SeverityLevel.NORMAL)
     public void xssInjectionTest() {
         String xssInjection = "<script>alert(1);</script>";
 
         Response response = given()
                 .contentType("application/json")
                 .when()
-                .get(URL_FIRST_PART + xssInjection + URL_SECOND_PART)
+                .get(Constants.BASE_URL + "/" + xssInjection + Constants.AD_URL_PART)
                 .then()
                 .extract()
                 .response();
 
-        assertThat(response.statusCode(), is(400));
+        CommonMethods.checkStatusCode(response, HttpStatus.SC_BAD_REQUEST);
     }
 }

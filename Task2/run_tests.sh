@@ -35,7 +35,15 @@ echo "Passed         : $PASSED"
 echo "Failures       : $FAILURES"
 echo
 
-cd ..
+echo
+echo "Generating Allure Report..."
+echo
+
+./mvnw  allure:report
+
+cp target/site/allure-maven-plugin/index.html ./allure-example.html
+
+./mvnw allure:serve & 
 
 if [ "$FAILURES" -ne 0 ] || [ "$ERRORS" -ne 0 ]; then
     echo "Test execution failed!"
